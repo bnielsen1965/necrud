@@ -1,5 +1,6 @@
 
 const Config = require('./config');
+const Database = require('./lib/database');
 const WebServer = require('./lib/webserver');
 const WebAPI = require('./lib/webapi');
 const SocketServer = require('./lib/socketserver');
@@ -14,6 +15,8 @@ class Application {
   }
 
   init () {
+    this.database = new Database(this.Config.Database);
+
     this.webServer = new WebServer(this.Config.WebServer);
     this.webServer
     	.createServer()
@@ -23,7 +26,7 @@ class Application {
     this.authentication = new Authentication(this.Config.Authentication);
     this.authentication.configure(this.webServer.app);
 
-    this.webAPI = new WebAPI();
+    this.webAPI = new WebAPI(this.database, this.Config.WebAPI);
     this.webAPI.configure(this.webServer);
 
     this.webServer.configureStaticRoutes();
