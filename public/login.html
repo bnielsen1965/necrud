@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Web Genesis - Login</title>
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+	<link rel="stylesheet" type="text/css" href="css/login.css">
+	<script src="js/login.js"></script>
+</head>
+<body>
+	<div class="center">
+		<div class="box">
+			<form action="/authentication" method="post">
+				<label for="username">Username <input type="text" value="" name="username" id="username" placeholder="username"></label><br>
+				<label for="password">Password <input type="password" value="" name="password" id="password" placeholder="password"></label><br>
+				<button type="submit">Login</button>
+			</form>
+			<div class="error" id="errors"></div>
+		</div>
+	</div>
+</body>
+</html>

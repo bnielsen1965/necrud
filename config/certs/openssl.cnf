@@ -1,0 +1,22 @@
+[ req ]
+distinguished_name = req_dn
+x509_extensions	= v3_ext
+
+[ req_dn ]
+
+[ ca ]
+default_ca      = CA_default
+
+[ CA_default ]
+database        = index.txt
+serial          = serial.txt
+policy          = policy_default
+
+[ policy_default ]
+
+[ v3_ext ]
+basicConstraints = CA:true
+subjectAltName = @alt_names
+
+[ alt_names ]
+# DO NOT APPEND ANYTHING BELOW THIS LINE

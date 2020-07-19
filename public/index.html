@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Web Genesis</title>
+	<link rel="stylesheet" type="text/css" href="css/index.css">
+  <script src="js/ui/ui.js"></script>
+	<script src="js/index.js"></script>
+	<script src="js/clientsocket.js"></script>
+</head>
+<body>
+  <h1>Web Genesis</h1>
+  <label>Token: <input type="text" id="token" readonly></label></br>
+	<a href="/logout.html">Logout</a> <button id="websocket" type="button">Open Socket</button> <button id="ping" type="button">Start Ping</button> <button id="renewal" type="button">Renew Token</button><br>
+	<div id="messages"></div>
+	<div id="errors" class="error"></div>
+</body>
+</html>
