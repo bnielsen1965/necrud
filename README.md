@@ -1,21 +1,16 @@
-# webgenesis
+# NeCRUD
 
-NodeJS genesis project for applications that need a web server with websocket support.
+A CRUD server for NeDB.
 
-WebGenesis is a stripped down starting point for the creation of NodeJS web applications
-that require a web server that supports HTTP, HTTPS, and WebSockets with authentication
-and JSON Web Token based authorization.
-
-Dependencies are kept to a minimum to reduce complexity while retaining simplicity
-provided by code reuse. The code comments and function names should be self explanatory
-and easy to follow.
+This is a webserver with authentication that provides CRUD operations on a collection
+of NeDB databases.
 
 
 # getting started
 
 ```shell
-> git clone https://github.com/bnielsen1965/webgenesis
-> cd webgenesis
+> git clone https://github.com/bnielsen1965/necrud
+> cd necrud
 > npm install
 > node index.js
 ```
@@ -83,3 +78,6 @@ module for WebSocket API calls.
 
 
 ## /hash
+
+
+# CRUD operations

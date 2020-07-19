@@ -1,23 +1,24 @@
 {
-  "name": "webgenesis",
+  "name": "necrud",
   "version": "1.0.0",
-  "description": "NodeJS genesis project for applications that need a web server with websocket.",
+  "description": "CRUD server for NeDB.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bnielsen1965/webgenesis.git"
+    "url": "git+https://github.com/bnielsen1965/necrud.git"
   },
   "keywords": [
-    "project",
-    "start",
     "nodejs",
     "webserver",
     "websocket",
     "http",
-    "https"
+    "https",
+    "crud",
+    "nedb",
+    "database"
   ],
   "author": "Bryan Nielsen <bnielsen1965@gmail.com> (https://github.com/bnielsen1965)",
   "license": "MIT",
