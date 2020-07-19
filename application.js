@@ -15,7 +15,7 @@ class Application {
   }
 
   init () {
-    this.database = new Database(this.Config.Database);
+    this.database = new Database(Object.assign({}, this.Config.Database, { onChange: this.onDatabaseChange.bind(this) }));
 
     this.webServer = new WebServer(this.Config.WebServer);
     this.webServer
@@ -43,6 +43,10 @@ class Application {
   async listen () {
     let settings = await this.webServer.listen();
     console.log('Server up on port ' + settings.port);
+  }
+
+  onDatabaseChange (message) {
+    console.log('M', message)
   }
 }
 
