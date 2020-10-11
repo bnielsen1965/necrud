@@ -1,15 +1,50 @@
 
-const TokenName = 'token';
+// Javascript for index.html
 
 
 let cs;
 let pinging = false;
 UI.ready(event => {
+  UI.clickAction('collection_create', createCollection);
+  setSelectCollections();
+
   UI.clickAction('websocket', websocketClick);
   UI.clickAction('ping', pingClick);
   UI.clickAction('renewal', renewTokenClick);
   showToken();
 });
+
+// set the select options for collection
+async function setSelectCollections () {
+  let collections = await getCollections();
+  let htmlOptions = collections.map(collection => `<option value="${collection}">${collection}</option>`);
+  UI.elementHTML('collection_names', htmlOptions);
+}
+
+// get collection names
+async function getCollections () {
+  let response;
+  try {
+    response = await Common.fetch('/api/collections');
+  }
+  catch (error) {
+    Common.appendError(error.toString());
+    return;
+  }
+  return response.collections;
+}
+
+// create a new collection
+function createCollection () {
+  let collection = UI.inputValue('collection_name');
+  Common.fetch('/api/collections', 'post', { collection })
+    .then(() => {
+      setSelectCollections();
+    })
+    .catch(error => {
+      Common.appendError(error.toString());
+    })
+}
 
 
 function websocketClick (ev) {
@@ -31,7 +66,7 @@ function pingClick (ev) {
   pinging = !pinging;
   UI.elementHTML('ping', (pinging ? 'Stop Ping' : 'Start Ping'));
   if (pinging) {
-    appendMessage('Start ping');
+    Common.appendMessage('Start ping');
     ping();
     return;
   }
@@ -46,7 +81,7 @@ async function renewTokenClick (ev) {
     headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
     redirect: 'follow',
     referrerPolicy: 'no-referrer',
-    body: JSON.stringify({ jwt: getToken() })
+    body: JSON.stringify({ jwt: ClientSocket.getToken() })
   });
   let data;
   try {
@@ -64,12 +99,8 @@ async function renewTokenClick (ev) {
 }
 
 
-function getToken () {
-  return ClientSocket.getCookie(TokenName);
-}
-
 function showToken () {
-  UI.inputValue('token', getToken());
+  UI.inputValue('token', ClientSocket.getToken());
 }
 
 
@@ -97,16 +128,16 @@ function onMessage (message) {
 		data = JSON.parse(message.data);
 	}
 	catch (error) {
-		appendError(error.message);
+		Common.appendError(error.message);
 		return;
 	}
 	switch (data.action) {
 		case 'pong':
-		appendMessage('Ping reply ' + JSON.stringify(data));
+		Common.appendMessage('Ping reply ' + JSON.stringify(data));
 		return;
 
 		default:
-		appendError('Unknown action ' + data.action);
+		Common.appendError('Unknown action ' + data.action);
 		return;
 	}
 }
@@ -114,14 +145,6 @@ function onMessage (message) {
 function ping () {
   if (!pinging) return;
   if (cs && cs.isOpen()) cs.send(JSON.stringify({ action: 'ping', text: 'echo this' }));
-  else appendError('Client socket is not open');
+  else Common.appendError('Client socket is not open');
   setTimeout(ping, 3000);
-}
-
-function appendMessage (message) {
-	UI.elementAppendHTML('messages', message + '<br>');
-}
-
-function appendError (error) {
-	UI.elementAppendHTML('errors', error + '<br>');
 }

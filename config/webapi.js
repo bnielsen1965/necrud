@@ -1,4 +1,4 @@
 
 module.exports = {
-  apiRoute: '/db'
+  dbRoute: '/db'
 };

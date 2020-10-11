@@ -1,4 +1,6 @@
 
+// Class to handle WebSocket connection to server
+
 class ClientSocket {
 	constructor (options) {
     options = options || {};
@@ -62,17 +64,11 @@ class ClientSocket {
 		console.log('WebSocket message. ' + message);
 	}
 
-	static getCookie (cname) {
-	  let name = cname + "=";
-	  let decodedCookie = decodeURIComponent(document.cookie);
-	  let ca = decodedCookie.split(';');
-	  for (let i = 0; i < ca.length; i++) {
-	    let c = ca[i].trim();
-	    if (c.indexOf(name) == 0) {
-	      return c.substring(name.length, c.length);
-	    }
-	  }
-	  return "";
-	}
+
+  static getToken (tokenName) {
+    return Common.getCookie(tokenName || TokenName);
+  }
+
+
 
 }
