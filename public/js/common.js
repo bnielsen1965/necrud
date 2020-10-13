@@ -48,4 +48,9 @@ class Common {
   	UI.elementAppendHTML('errors', error + '<br>');
   }
 
+  static clearAll () {
+    UI.elementHTML('messages', '');
+    UI.elementHTML('errors', '');
+  }
+
 }

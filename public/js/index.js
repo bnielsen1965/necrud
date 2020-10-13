@@ -7,6 +7,7 @@ let pinging = false;
 UI.ready(event => {
   UI.clickAction('collection_create', createCollection);
   setSelectCollections();
+  UI.clickAction('build_query', buildQuery);
 
   UI.clickAction('websocket', websocketClick);
   UI.clickAction('ping', pingClick);
@@ -43,8 +44,32 @@ function createCollection () {
     })
     .catch(error => {
       Common.appendError(error.toString());
-    })
+    });
 }
+
+
+// build query object into query string
+function buildQuery () {
+    Common.clearAll();
+    UI.inputValue('collection_query_string', '');
+    let qoin = UI.inputValue('collection_query_object');
+    console.log('IN', qoin)
+    if (!qoin || !qoin.length) return;
+    let qo;
+    try {
+      qo = JSON.parse(qoin);
+    }
+    catch (error) {
+      Common.appendError(error.message);
+      return;
+    }
+    UI.inputValue('collection_query_string', encodeURIComponent(JSON.stringify(qo)));
+  }
+
+
+
+
+
 
 
 function websocketClick (ev) {

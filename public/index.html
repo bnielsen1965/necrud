@@ -12,8 +12,11 @@
 </head>
 <body>
   <h1>NeCRUD</h1>
-  <label>Collections</label> <select id="collection_names"></select> <button id="collection_delete">Delete</button> <br>
-  <label> </label> <input type="text" id="collection_name"> <button type="button" id="collection_create">Create</button>
+  <label> </label> <input type="text" id="collection_name"> <button type="button" id="collection_create">Create</button> <br>
+  <label>Collections</label> <select id="collection_names"></select> <button id="collection_delete">Delete</button>
+  <hr>
+  <label style="vertical-align:top;">Query Object</label> <textarea id="collection_query_object" style="width:30em; height:6em;"></textarea> <button type="button" id="build_query">Build Query</button> <br>
+  <label>Query String</label> <input id="collection_query_string" style="width:30em;">
   <hr>
   <label>Token: <input type="text" id="token" readonly></label></br>
 	<a href="/logout.html">Logout</a> <button id="websocket" type="button">Open Socket</button> <button id="ping" type="button">Start Ping</button> <button id="renewal" type="button">Renew Token</button><br>

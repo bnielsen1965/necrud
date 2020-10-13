@@ -1,4 +1,5 @@
 
 module.exports = {
-  dataPath: './data'
+  dataPath: './data',
+  autoCreate: true
 };
