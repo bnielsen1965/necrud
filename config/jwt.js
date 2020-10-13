@@ -5,5 +5,5 @@ module.exports = {
     expiresIn: '1 days'
   },
   key: 'supersecretprivatekey',
-  tokenName: 'token'
+  tokenName: 'necrud_token'
 };

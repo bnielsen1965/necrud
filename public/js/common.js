@@ -1,5 +1,5 @@
 
-const TokenName = 'token';
+const TokenName = 'necrud_token';
 
 
 class Common {
