@@ -12,11 +12,17 @@
 </head>
 <body>
   <h1>NeCRUD</h1>
-  <label> </label> <input type="text" id="collection_name"> <button type="button" id="collection_create">Create</button> <br>
-  <label>Collections</label> <select id="collection_names"></select> <button id="collection_delete">Delete</button>
+  <label>Collections</label> <select id="collection_names"></select> <button id="collection_delete">Delete</button> or <input type="text" id="collection_name"> <button type="button" id="collection_create">Create</button>
   <hr>
-  <label style="vertical-align:top;">Query Object</label> <textarea id="collection_query_object" style="width:30em; height:6em;"></textarea> <button type="button" id="build_query">Build Query</button> <br>
-  <label>Query String</label> <input id="collection_query_string" style="width:30em;">
+  <label style="vertical-align:top;">Query Object</label> <textarea id="collection_query_object" style="width:30em; height:6em;"></textarea> <button type="button" id="build_query">Build Query String</button> <br>
+  <label>Query String</label> <input id="collection_query_string" style="width:30em;"> or _id <input id="document_id" title="Document _id for single document operation."> <br>
+  <br>
+  <label> </label>
+  <button type="button" id="document_insert" title="Insert new document into collection.">Insert</button>
+  <button type="button" id="document_find" title="Find documents in collection.">Find</button>
+  <button type="button" id="document_update" title="Update documents in collection.">Update</button>
+  <button type="button" id="document_delete" title="Delete documents in collection.">Delete</button> <br>
+  <label style="vertical-align:top;">Documents</label> <textarea id="documents" style="width:30em; height:12em;"></textarea>
   <hr>
   <label>Token: <input type="text" id="token" readonly></label></br>
 	<a href="/logout.html">Logout</a> <button id="websocket" type="button">Open Socket</button> <button id="ping" type="button">Start Ping</button> <button id="renewal" type="button">Renew Token</button><br>

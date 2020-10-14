@@ -6,7 +6,8 @@ let cs;
 let pinging = false;
 UI.ready(event => {
   UI.clickAction('collection_create', createCollection);
-  setSelectCollections();
+  UI.clickAction('collection_delete', deleteCollection);
+  getSelectCollections();
   UI.clickAction('build_query', buildQuery);
 
   UI.clickAction('websocket', websocketClick);
@@ -16,9 +17,9 @@ UI.ready(event => {
 });
 
 // set the select options for collection
-async function setSelectCollections () {
+async function getSelectCollections (selected) {
   let collections = await getCollections();
-  let htmlOptions = collections.map(collection => `<option value="${collection}">${collection}</option>`);
+  let htmlOptions = collections.map(collection => `<option value="${collection}"${(collection === selected ? ' selected' : '')}>${collection}</option>`);
   UI.elementHTML('collection_names', htmlOptions);
 }
 
@@ -40,7 +41,19 @@ function createCollection () {
   let collection = UI.inputValue('collection_name');
   Common.fetch('/api/collections', 'post', { collection })
     .then(() => {
-      setSelectCollections();
+      getSelectCollections(collection);
+    })
+    .catch(error => {
+      Common.appendError(error.toString());
+    });
+}
+
+// delete the selected collection
+function deleteCollection () {
+  let collection = UI.inputValue('collection_names');
+  Common.fetch(`/api/collections/${collection}`, 'delete')
+    .then(() => {
+      getSelectCollections();
     })
     .catch(error => {
       Common.appendError(error.toString());

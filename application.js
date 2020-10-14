@@ -14,9 +14,10 @@ class Application {
     this.Config = Object.assign({}, Defaults, Config);
   }
 
-  init () {
+  async init () {
     this.database = new Database(Object.assign({}, this.Config.Database, { onChange: this.onDatabaseChange.bind(this) }));
-
+    await this.database.init();
+    
     this.webServer = new WebServer(this.Config.WebServer);
     this.webServer
     	.createServer()
