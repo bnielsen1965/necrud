@@ -17,7 +17,7 @@ class Application {
   async init () {
     this.database = new Database(Object.assign({}, this.Config.Database, { onChange: this.onDatabaseChange.bind(this) }));
     await this.database.init();
-    
+
     this.webServer = new WebServer(this.Config.WebServer);
     this.webServer
     	.createServer()
@@ -47,7 +47,8 @@ class Application {
   }
 
   onDatabaseChange (message) {
-    console.log('M', message)
+    // TODO send websocket message
+    console.log('DATA CHANGE', message)
   }
 }
 

@@ -9,6 +9,8 @@ UI.ready(event => {
   UI.clickAction('collection_delete', deleteCollection);
   getSelectCollections();
   UI.clickAction('build_query', buildQuery);
+  UI.clickAction('document_insert', documentInsert);
+  UI.clickAction('document_find', documentFind);
 
   UI.clickAction('websocket', websocketClick);
   UI.clickAction('ping', pingClick);
@@ -34,6 +36,41 @@ async function getCollections () {
     return;
   }
   return response.collections;
+}
+
+// find documents
+function documentFind () {
+  Common.clearAll();
+  let collection = UI.inputValue('collection_names');
+  let queryString = UI.inputValue('collection_query_string');
+  Common.fetch(`/db/${collection}?q=${queryString}`)
+    .then(res => {
+      console.log(res)
+      UI.inputValue('documents', JSON.stringify(res, null, 2));
+    })
+    .catch(error => {
+      Common.appendError(error.toString());
+    })
+}
+// insert a document
+function documentInsert () {
+  Common.clearAll();
+  let doc;
+  try {
+    doc = JSON.parse(UI.inputValue('documents'));
+  }
+  catch (error) {
+    Common.appendError(error);
+    return;
+  }
+  let collection = UI.inputValue('collection_names');
+  Common.fetch(`/db/${collection}`, 'post', doc)
+    .then(res => {
+      Common.appendMessage(`Inserted new document ${res._id} into ${collection}.`);
+    })
+    .catch(error => {
+      Common.appendError(error.toString());
+    });
 }
 
 // create a new collection
