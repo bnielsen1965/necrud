@@ -28,4 +28,8 @@ class UI {
   static clickAction (id, action) {
     UI.element(id).addEventListener('click', action);
   }
+
+  static changeAction (id, action) {
+    UI.element(id).addEventListener('change', action);
+  }
 }

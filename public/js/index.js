@@ -9,14 +9,22 @@ UI.ready(event => {
   UI.clickAction('collection_delete', deleteCollection);
   getSelectCollections();
   UI.clickAction('build_query', buildQuery);
+  UI.clickAction('document_delete', documentDelete);
   UI.clickAction('document_insert', documentInsert);
   UI.clickAction('document_find', documentFind);
+  UI.changeAction('document_id', idChange);
 
   UI.clickAction('websocket', websocketClick);
   UI.clickAction('ping', pingClick);
   UI.clickAction('renewal', renewTokenClick);
   showToken();
 });
+
+function idChange (e) {
+  console.log(e.target.value)
+  UI.element('collection_query_string').disabled = (e.target.value.length ? true : false);
+}
+
 
 // set the select options for collection
 async function getSelectCollections (selected) {
@@ -38,20 +46,39 @@ async function getCollections () {
   return response.collections;
 }
 
-// find documents
-function documentFind () {
-  Common.clearAll();
+function restUrl (noQuery) {
   let collection = UI.inputValue('collection_names');
+  let id = UI.inputValue('document_id');
   let queryString = UI.inputValue('collection_query_string');
-  Common.fetch(`/db/${collection}?q=${queryString}`)
+  return `/db/${collection}` + (noQuery ? '' : (id.length ? `/${id}` : `?q=${queryString}`));
+}
+
+function documentDelete () {
+  Common.clearAll();
+  if (!UI.inputValue('document_id').length && !UI.inputValue('collection_query_string').length) {
+    if (!confirm('This action will remove all documents in the selected collection!')) return;
+  }
+  Common.fetch(restUrl(), 'delete')
     .then(res => {
-      console.log(res)
       UI.inputValue('documents', JSON.stringify(res, null, 2));
     })
     .catch(error => {
       Common.appendError(error.toString());
-    })
+    });
 }
+
+// find documents
+function documentFind () {
+  Common.clearAll();
+  Common.fetch(restUrl())
+    .then(res => {
+      UI.inputValue('documents', JSON.stringify(res, null, 2));
+    })
+    .catch(error => {
+      Common.appendError(error.toString());
+    });
+}
+
 // insert a document
 function documentInsert () {
   Common.clearAll();
@@ -64,7 +91,7 @@ function documentInsert () {
     return;
   }
   let collection = UI.inputValue('collection_names');
-  Common.fetch(`/db/${collection}`, 'post', doc)
+  Common.fetch(restUrl(true), 'post', doc)
     .then(res => {
       Common.appendMessage(`Inserted new document ${res._id} into ${collection}.`);
     })
@@ -72,6 +99,9 @@ function documentInsert () {
       Common.appendError(error.toString());
     });
 }
+
+
+
 
 // create a new collection
 function createCollection () {
