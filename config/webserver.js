@@ -1,7 +1,9 @@
 
+const Path = require('path');
+
 module.exports = {
   httpPort: 8880,
   httpsPort: 4443,
-  keyFile: "./config/certs/webserver.key",
-  crtFile: "./config/certs/webserver.crt"
+  keyFile: Path.resolve("./config/certs/webserver.key"),
+  crtFile: Path.resolve("./config/certs/webserver.crt")
 };

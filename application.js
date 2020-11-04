@@ -44,11 +44,28 @@ class Application {
   async listen () {
     let settings = await this.webServer.listen();
     console.log('Server up on port ' + settings.port);
+    this.serverSettings = Object.assign({ isSecure: this.webServer.isSecure() }, settings);
+  }
+
+  async close () {
+    await this.socketServer.close();
+    await this.webServer.close();
+  }
+
+  isSecure () {
+    return this.serverSettings.isSecure;
+  }
+
+  address () {
+    return this.serverSettings.address;
+  }
+
+  port () {
+    return this.serverSettings.port;
   }
 
   onDatabaseChange (message) {
-    // TODO send websocket message
-    console.log('DATA CHANGE', message)
+    this.socketServer.sendMessage('message', message);
   }
 }
 

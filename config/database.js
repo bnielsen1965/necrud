@@ -1,5 +1,7 @@
 
+const Path = require('path');
+
 module.exports = {
-  dataPath: './data',
+  dataPath: Path.resolve('./data'),
   autoCreate: true
 };

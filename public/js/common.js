@@ -7,7 +7,7 @@ class Common {
   static async fetch (endpoint, method, body) {
     let url = `/${endpoint}`.replace(/^\/\//, '/');
     let settings = {
-      method,
+      method: method ? method.toUpperCase() : 'GET',
       cache: 'no-cache',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       redirect: 'follow',
