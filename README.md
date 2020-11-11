@@ -3,10 +3,17 @@
 A CRUD server for NeDB.
 
 This is a webserver with authentication that provides CRUD operations on a collection
-of NeDB databases.
+of NeDB databases as well as a websocket interface to listen real time for changes
+made to the NeDB database collections.
+
+The webserver includes an administrative page where collections can be created, destroyed,
+and data in the collections can be manipulated.
 
 
 # getting started
+
+The server is ready to go with the default configuration, just clone the project and run
+npm install to install the dependencies and start the server...
 
 ```shell
 > git clone https://github.com/bnielsen1965/necrud.git
@@ -18,7 +25,10 @@ of NeDB databases.
 This will bring up a server with the default settings using the provided self signed
 certificate. Open a web browser to the server running on the default port, I.E.
 
-http://localhost:8880/
+http://localhost:8880/   or   https://localhost:4443
+
+If everything worked you should be presented with a login page after accepting the
+self signed certificate.
 
 
 # configuration
@@ -93,10 +103,55 @@ The REST api includes various endpoint routes for use and operation of the datab
 server as well as routes for database CRUD operations.
 
 
-## /authentication
+## POST /authentication
+
+Accessing the CRUD api will require an authorization token that is generated through
+successful authentication on the */authentication* endpoint.
+
+POST a JSON object with the username and password to the authentication endpoint along
+with appropriate headers and the response will be a JSON object with a JSON Web Token.
+
+**Note the Accept header value of application/json that ensures the api response is a JSON object.**
+
+Example HTTP POST
+```
+POST /authentication HTTP/1.1
+Host: localhost:4443
+Accept: application/json
+Content-Type: application/json
+Content-Length: 43
+
+{
+    "username": "admin", "password": ""
+}
+```
+
+Response
+```json
+{
+    "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNjA1MDYwMTA4LCJleHAiOjE2MDUxNDY1MDh9.bKesU3htJu7unk71v4uwa0XaappN1H0NWGP-1Pq1aYVV1Nkm2JnbFQwvs6zpGQrllrds0SPukdbrAZVvNEGOuQ"
+}
+```
+
+The token is valid for CRUD requests until it expires. The expiration timestamp is
+embedded in the token payload. See documentation on [JWTs](https://jwt.io/) for details
+on how to parse and read a JWT.
 
 
-## /hash
+## GET | POST | DELETE /api/collections
+
+get list of database collections
+
+create new collection
+
+delete a collection
 
 
-# CRUD operations
+## GET | POST | PUT | PATCH | DELETE /db
+
+collection CRUD operations
+
+
+## POST /hash
+
+hash a password for users list
